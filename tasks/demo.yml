@@ -1,0 +1,46 @@
+---
+- name: Test calculate module
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - name: Add two numbers
+      calculate:
+        method: add
+        number1: 4
+        number2: 7
+      register: result
+    - debug:
+        msg: "Add 4+7 => {{ result.msg }}"
+    - name: Add two numbers (number2 defaults to 10)
+      calculate:
+        method: add
+        number1: 7
+      register: result
+    - debug:
+        msg: "Add 7+default => {{ result.msg }}"
+    - name: Subtract two numbers
+      calculate:
+        method: subtract
+        number1: 7
+        number2: 4
+      register: result
+    - debug:
+        msg: "Subtract 7-4 => {{ result.msg }}"
+    - name: Multiply two numbers
+      calculate:
+        method: multiply
+        number1: 7
+        number2: 4
+      register: result
+    - debug:
+        msg: "Multiply 7*4 => {{ result.msg }}"
+    - name: Divide two numbers
+      calculate:
+        method: divide
+        number1: 7
+        number2: 4
+      register: result
+    - debug:
+        msg: "Divide 7/4 => {{ result.msg }}"
