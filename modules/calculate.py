@@ -20,9 +20,21 @@ def calculate(_method, n1, n2):
 
 def run_module():
     module_args = dict(
-        method=dict(type='str', required=False, default='add'),
-        number1=dict(type='int', required=True),
-        number2=dict(type='int', required=False, default=10)
+        method=dict(
+            type='str',
+            required=False,
+            default='add',
+            choices=['add', 'subtract', 'multiply', 'divide']
+        ),
+        number1=dict(
+            type='int',
+            required=True
+        ),
+        number2=dict(
+            type='int',
+            required=False,
+            default=10
+        )
     )
 
     module = AnsibleModule(

@@ -70,4 +70,77 @@ In the file `tasks/demo.yml` you can see how to use the module `calculate.py` - 
     - debug:
         msg: "Add 4+7 => {{ result.msg }}"
 ```
+Note the keywords `method`, `number1` and `number2`. Those are the names of the parameters that the module expects - in the example module 
+they are defined in this construct (in the `def run_module()` function):
+```python
+module_args = dict(
+    method=dict(
+        type='str',
+        required=False,
+        default='add',
+        choices=['add', 'subtract', 'multiply', 'divide']
+    ),
+    number1=dict(
+        type='int',
+        required=True
+    ),
+    number2=dict(
+        type='int',
+        required=False,
+        default=10
+    )
+) 
+```
 
+The demo can be run with the following command:
+
+```bash
+❯ ansible-playbook tasks/demo.yml
+[WARNING]: No inventory was parsed, only implicit localhost is available
+[WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
+
+PLAY [Test calculate module] ***...
+
+TASK [Add two numbers] ***..
+ok: [localhost]
+
+TASK [debug] ***...
+ok: [localhost] => {
+    "msg": "Add 4+7 => 11"
+}
+
+TASK [Add two numbers (number2 defaults to 10)] ***...
+ok: [localhost]
+
+TASK [debug] ***...
+ok: [localhost] => {
+    "msg": "Add 7+default => 17"
+}
+
+TASK [Subtract two numbers] ***...
+ok: [localhost]
+
+TASK [debug] ***...
+ok: [localhost] => {
+    "msg": "Subtract 7-4 => 3"
+}
+
+TASK [Multiply two numbers] ***...
+ok: [localhost]
+
+TASK [debug] ***...
+ok: [localhost] => {
+    "msg": "Multiply 7*4 => 28"
+}
+
+TASK [Divide two numbers] ***..
+ok: [localhost]
+
+TASK [debug] ***...
+ok: [localhost] => {
+    "msg": "Divide 7/4 => 1.75"
+}
+
+PLAY RECAP ***...
+localhost                  : ok=10   changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+```
